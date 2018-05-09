@@ -9,19 +9,26 @@ let socket = require('socket.io')
 
 let io = socket(server)
 
-io.sockets.on('connection', newConnection) //server side connection callback
+//_________________ACTIUAL CODE_______________
+let usersOnline = 0
 
-function newConnection(socket) {
-    console.log('new connection' + socket.id)
 
-    socket.on('mouse', mouseMsg)
+io.sockets.on('connect', (client) => {
+    console.log(client.id + ' connected')
 
-    function mouseMsg(data) {
-        console.log(data)
+    client.on('mouse', (data) => {
+        console.log(data);
         socket.broadcast.emit('mouse', data)
-        //sending to everybody exept THIS client
+    })
+    usersOnline++
+    console.log(usersOnline)
+})
 
-        //io.sockets.emit - sends to ALL clients
-    }
+io.sockets.on('connect', (client) => {
 
-}
+    client.on('disconnect', () => {
+        console.log(client.id + ' disconnected')
+        usersOnline--
+        console.log(usersOnline)
+    });
+});
