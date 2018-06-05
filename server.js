@@ -26,7 +26,6 @@ io.sockets.on('connect', (client) => {
 })
 
 io.sockets.on('connect', (client) => {
-
     client.on('disconnect', () => {
         console.log(client.id + ' disconnected')
         usersOnline--
