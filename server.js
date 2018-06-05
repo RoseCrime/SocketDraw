@@ -1,10 +1,11 @@
+//Express stuff
 let express = require('express')
 
 let app = express()
 let server = app.listen(80)
 
 app.use(express.static('public'))
-
+//socket stuff
 let socket = require('socket.io')
 
 let io = socket(server)
